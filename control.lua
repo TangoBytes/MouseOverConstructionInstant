@@ -196,9 +196,7 @@ end
 -- -----------------------------------------------------------------------------
 -- EVENT HANDLERS
 
-local M = {}
-
-function M.on_init()
+local function init()
   --- @type table<uint, MapPosition>
   storage.deconstructing = {}
   --- @type table<uint, MapPosition>
@@ -206,6 +204,11 @@ function M.on_init()
   --- @type table<uint, boolean>
   storage.recheck_on_move = {}
 end
+
+local M = {}
+
+M.on_init = init
+M.on_configuration_changed = init
 
 M.events = {
   [defines.events.on_selected_entity_changed] = function(e)
