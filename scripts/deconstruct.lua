@@ -1,0 +1,53 @@
+--- @param player_index PlayerIndex
+local function cancel(player_index)
+  storage.deconstructing[player_index] = nil
+end
+
+--- @param player LuaPlayer
+--- @param entity LuaEntity
+--- @return boolean started
+local function start(player, entity)
+  if not player.mod_settings["moc-enable-deconstruction"].value then
+    return false
+  end
+
+  if not entity.to_be_deconstructed() then
+    return false
+  end
+
+  storage.deconstructing[player.index] = entity.position
+  return true
+end
+
+local function on_tick()
+  if not storage.deconstructing then
+    return
+  end
+
+  for player_index, position in pairs(storage.deconstructing) do
+    local player = game.get_player(player_index)
+    if not player then
+      cancel(player_index)
+      goto continue
+    end
+    player.mining_state = { mining = true, position = position }
+    ::continue::
+  end
+end
+
+--- @class deconstruct_handler : event_handler
+local deconstruct_handler = {}
+
+function deconstruct_handler.on_init()
+  --- @type table<PlayerIndex, MapPosition>
+  storage.deconstructing = {}
+end
+
+deconstruct_handler.events = {
+  [defines.events.on_tick] = on_tick,
+}
+
+deconstruct_handler.cancel = cancel
+deconstruct_handler.start = start
+
+return deconstruct_handler

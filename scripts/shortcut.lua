@@ -1,3 +1,6 @@
+-- TODO: Execute logic if enabled while entity is selected.
+-- TODO: Cancel logic if disabled while entity is selected.
+
 --- @param e EventData.on_lua_shortcut|EventData.CustomInputEvent
 local function toggle_mouseover(e)
   local name = e.input_name or e.prototype_name
@@ -19,21 +22,22 @@ local function toggle_mouseover(e)
   end
 end
 
-local M = {}
+--- @class shortcut_handler : event_handler
+local shortcut_handler = {}
 
-function M.on_init()
-  --- @type table<uint, boolean>
+function shortcut_handler.on_init()
+  --- @type Set<PlayerIndex>
   storage.mouseover_active = {}
   for _, player in pairs(game.players) do
     player.set_shortcut_toggled("moc-toggle", false)
   end
 end
 
-M.on_configuration_changed = M.on_init
+shortcut_handler.on_configuration_changed = shortcut_handler.on_init
 
-M.events = {
+shortcut_handler.events = {
   [defines.events.on_lua_shortcut] = toggle_mouseover,
   ["moc-toggle"] = toggle_mouseover,
 }
 
-return M
+return shortcut_handler
