@@ -29,7 +29,7 @@ function shortcut_handler.on_init()
   --- @type Set<PlayerIndex>
   storage.mouseover_active = {}
   for _, player in pairs(game.players) do
-    player.set_shortcut_toggled("moc-toggle", false)
+    storage.mouseover_active[player.index] = player.is_shortcut_toggled("moc-toggle")
   end
 end
 
