@@ -5,6 +5,7 @@ Date: ????
     - Fixed that construction would delete rich item data (i.e. health, equipment grid, label). (#12, #23)
     - Fixed a crash when loading save files from Factorio 1.1. (#25)
     - Fixed that the shortcut state would reset when mod configuration changed. (#24)
+    - Fixed that constructing pyanodons wind turbines would not consume items. (#10)
 ---------------------------------------------------------------------------------------------------
 Version: 1.3.2
 Date: 2025-02-16

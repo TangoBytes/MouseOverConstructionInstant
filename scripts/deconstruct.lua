@@ -7,6 +7,10 @@ end
 --- @param entity LuaEntity
 --- @return boolean started
 local function start(player, entity)
+  if not entity.valid then
+    return false
+  end
+
   if not player.mod_settings["moc-enable-deconstruction"].value then
     return false
   end

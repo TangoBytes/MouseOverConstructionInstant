@@ -4,6 +4,10 @@ local common = require("scripts.common")
 --- @param entity LuaEntity
 --- @return boolean succeeded
 return function(player, entity)
+  if not entity.valid then
+    return false
+  end
+
   if not player.mod_settings["moc-enable-upgrading"].value then
     return false
   end

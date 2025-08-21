@@ -1,3 +1,12 @@
+--- @param box1 BoundingBox
+--- @param box2 BoundingBox
+local function bounding_boxes_equal(box1, box2)
+  return box1.left_top.x == box2.left_top.x
+    and box1.left_top.y == box2.left_top.y
+    and box1.right_bottom.x == box2.right_bottom.x
+    and box1.right_bottom.y == box2.right_bottom.y
+end
+
 --- @class common
 local common = {}
 
@@ -12,6 +21,13 @@ function common.build(player, entity, new_prototype, new_quality)
   if not item then
     return nil
   end
+
+  local bounding_box = entity.bounding_box
+  local surface = entity.surface
+  local position = entity.position
+  local direction = entity.direction
+  local quality = entity.quality
+  local force = entity.force
 
   local new_entity = player.surface.create_entity({
     name = new_prototype.name,
@@ -31,8 +47,27 @@ function common.build(player, entity, new_prototype, new_quality)
     --- Undergound belt
     type = entity.type == "underground-belt" and entity.belt_to_ground_type or nil,
   })
-  if not new_entity then
-    return nil
+  if not new_entity or not new_entity.valid then
+    -- Some mods will immediately replace the entity with a different one. Let's see if we can detect this.
+    for _, replaced_entity in
+      pairs(surface.find_entities_filtered({
+        direction = direction,
+        position = position,
+        quality = quality.name,
+        force = force,
+      }))
+    do
+      if
+        replaced_entity.type ~= "entity-ghost"
+        and replaced_entity.type ~= "tile-ghost"
+        and bounding_boxes_equal(replaced_entity.bounding_box, bounding_box)
+      then
+        new_entity = replaced_entity
+        break
+      else
+        return
+      end
+    end
   end
 
   item.count = item.count - consume_count

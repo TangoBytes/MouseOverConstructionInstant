@@ -7,6 +7,10 @@ end
 --- @param entity LuaEntity
 --- @return boolean
 local function start(player, entity)
+  if not entity.valid then
+    return false
+  end
+
   if not player.mod_settings["moc-enable-repairing"].value then
     return false
   end

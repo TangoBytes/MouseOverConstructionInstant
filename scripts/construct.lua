@@ -4,6 +4,10 @@ local common = require("scripts.common")
 --- @param entity LuaEntity
 --- @return boolean
 return function(player, entity)
+  if not entity.valid then
+    return false
+  end
+
   if not player.mod_settings["moc-enable-construction"].value then
     return false
   end
@@ -20,5 +24,5 @@ return function(player, entity)
 
   local new_entity = common.build(player, entity, entity_prototype, entity.quality)
 
-  return new_entity and true or false
+  return new_entity and new_entity.valid and true or false
 end
