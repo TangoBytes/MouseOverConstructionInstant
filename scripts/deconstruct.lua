@@ -35,13 +35,16 @@ local function on_tick()
   end
 end
 
---- @class deconstruct_handler : event_handler
-local deconstruct_handler = {}
-
-function deconstruct_handler.on_init()
+local function init()
   --- @type table<PlayerIndex, MapPosition>
   storage.deconstructing = {}
 end
+
+--- @class deconstruct_handler : event_handler
+local deconstruct_handler = {}
+
+deconstruct_handler.on_init = init
+deconstruct_handler.on_configuration_changed = init
 
 deconstruct_handler.events = {
   [defines.events.on_tick] = on_tick,

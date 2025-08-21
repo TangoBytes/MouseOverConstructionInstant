@@ -40,13 +40,16 @@ local function on_tick()
   end
 end
 
---- @class repair_handler : event_handler
-local repair_handler = {}
-
-function repair_handler.on_init()
+local function init()
   --- @type table<PlayerIndex, MapPosition>
   storage.repairing = {}
 end
+
+--- @class repair_handler : event_handler
+local repair_handler = {}
+
+repair_handler.on_init = init
+repair_handler.on_configuration_changed = init
 
 repair_handler.events = {
   [defines.events.on_tick] = on_tick,
