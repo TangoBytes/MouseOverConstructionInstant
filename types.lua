@@ -1,3 +1,3 @@
 --- @alias PlayerIndex uint
 
---- @class Set<T> : table<T, true?>
+--- @class Set<T> : table<T, boolean?>

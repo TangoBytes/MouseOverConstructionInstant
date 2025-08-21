@@ -18,14 +18,7 @@ return function(player, entity)
   end
   --- @cast upgrade_quality -?
 
-  if
-    not player.can_place_entity({
-      name = upgrade_prototype.name,
-      position = entity.position,
-      direction = entity.direction,
-    })
-  then
-    storage.recheck_on_move[player.index] = player.position
+  if not common.check_can_place_entity(player, entity, upgrade_prototype) then
     return false
   end
 

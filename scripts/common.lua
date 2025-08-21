@@ -45,6 +45,24 @@ function common.build(player, entity, new_prototype, new_quality)
   return new_entity
 end
 
+--- @param player LuaPlayer
+--- @param entity LuaEntity
+--- @param new_prototype LuaEntityPrototype
+--- @return boolean
+function common.check_can_place_entity(player, entity, new_prototype)
+  if
+    not player.can_place_entity({
+      name = new_prototype.name,
+      position = entity.position,
+      direction = entity.direction,
+    })
+  then
+    storage.recheck_on_move[player.index] = true
+    return false
+  end
+  return true
+end
+
 --- Returns the first LuaItemStack that can build the given entity and quality.
 --- @param player LuaPlayer
 --- @param prototype LuaEntityPrototype

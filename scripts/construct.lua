@@ -12,18 +12,13 @@ return function(player, entity)
     return false
   end
 
-  if
-    not player.can_place_entity({
-      name = entity.ghost_name,
-      position = entity.position,
-      direction = entity.direction,
-    })
-  then
-    storage.recheck_on_move[player.index] = player.position
+  local entity_prototype = entity.ghost_prototype --[[@as LuaEntityPrototype]]
+
+  if not common.check_can_place_entity(player, entity, entity_prototype) then
     return false
   end
 
-  local new_entity = common.build(player, entity, entity.ghost_prototype --[[@as LuaEntityPrototype]], entity.quality)
+  local new_entity = common.build(player, entity, entity_prototype, entity.quality)
 
   return new_entity and true or false
 end
