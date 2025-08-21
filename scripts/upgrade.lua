@@ -35,10 +35,10 @@ return function(player, entity)
     return true
   end
 
-  -- Upgrading underground neighbours doesn't obey the usual build distance restrictions, so no need to check it here.
   local neighbour_upgrade_prototype, neighbour_upgrade_quality = underground_neighbour.get_upgrade_target()
   if neighbour_upgrade_prototype then
     --- @cast neighbour_upgrade_quality -?
+    -- Upgrading underground neighbours doesn't obey the usual build distance restrictions, so no need to check it here.
     common.build(player, underground_neighbour, neighbour_upgrade_prototype, neighbour_upgrade_quality)
   end
 
