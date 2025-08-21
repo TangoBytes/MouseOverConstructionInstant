@@ -58,23 +58,6 @@ local function try_execute(player, entity)
   deconstruct.start(player, entity)
 end
 
---- @param e EventData.on_selected_entity_changed
-local function on_selected_entity_changed(e)
-  deconstruct.cancel(e.player_index)
-  repair.cancel(e.player_index)
-  storage.recheck_on_move[e.player_index] = nil
-
-  local player = game.get_player(e.player_index)
-  --- @cast player -?
-
-  local selected = player.selected
-  if not selected then
-    return
-  end
-
-  try_execute(player, selected)
-end
-
 --- @param e EventData.on_player_changed_position
 local function on_player_changed_position(e)
   if not storage.recheck_on_move[e.player_index] then
@@ -99,6 +82,23 @@ local function on_player_changed_position(e)
   try_execute(player, selected)
 end
 
+--- @param e EventData.on_selected_entity_changed
+local function on_selected_entity_changed(e)
+  deconstruct.cancel(e.player_index)
+  repair.cancel(e.player_index)
+  storage.recheck_on_move[e.player_index] = nil
+
+  local player = game.get_player(e.player_index)
+  --- @cast player -?
+
+  local selected = player.selected
+  if not selected then
+    return
+  end
+
+  try_execute(player, selected)
+end
+
 --- @class orchestrator_handler : event_handler
 local orchestrator_handler = {}
 
@@ -108,8 +108,8 @@ function orchestrator_handler.on_init()
 end
 
 orchestrator_handler.events = {
-  [defines.events.on_selected_entity_changed] = on_selected_entity_changed,
   [defines.events.on_player_changed_position] = on_player_changed_position,
+  [defines.events.on_selected_entity_changed] = on_selected_entity_changed,
 }
 
 return orchestrator_handler
