@@ -3,10 +3,28 @@ local deconstruct = require("scripts.deconstruct")
 local repair = require("scripts.repair")
 local upgrade = require("scripts.upgrade")
 
+--- @type Set<string>
+local ignored_entities = prototypes.mod_data["moc-ignored-entities"].data
+
+--- @param entity LuaEntity
+local function should_ignore_entity(entity)
+  local useful_name = ""
+  if entity.type == "entity-ghost" then
+    useful_name = entity.ghost_name
+  else
+    useful_name = entity.name
+  end
+  return ignored_entities[useful_name] or false
+end
+
 --- @param player LuaPlayer
 --- @param entity LuaEntity
 local function try_execute(player, entity)
   if not storage.mouseover_active[player.index] then
+    return
+  end
+
+  if should_ignore_entity(entity) then
     return
   end
 
