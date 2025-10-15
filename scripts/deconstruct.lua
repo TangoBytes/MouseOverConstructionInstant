@@ -7,21 +7,26 @@ end
 --- @param entity LuaEntity
 --- @return boolean started
 local function start(player, entity)
-  if not entity.valid then
-    return false
+  if not (entity and entity.valid) then return false end
+  if not player.mod_settings["moc-enable-deconstruction"].value then return false end
+  if not entity.to_be_deconstructed() then return false end
+
+  -- If the entity belongs to the player’s force, attempt instant mine
+  if entity.force and entity.force == player.force then
+    local ok = player.mine_entity(entity)
+    -- If it succeeds, we're done — no need for the timed mining
+    if ok then
+      storage.deconstructing[player.index] = nil
+      return true
+    end
+    -- If it fails (inventory full, unreachable, etc.), fall through to timed
   end
 
-  if not player.mod_settings["moc-enable-deconstruction"].value then
-    return false
-  end
-
-  if not entity.to_be_deconstructed() then
-    return false
-  end
-
+  -- Default: timed mining (progress bar behavior)
   storage.deconstructing[player.index] = entity.position
   return true
 end
+
 
 local function on_tick()
   if not storage.deconstructing then
@@ -34,6 +39,7 @@ local function on_tick()
       cancel(player_index)
       goto continue
     end
+
     player.mining_state = { mining = true, position = position }
     ::continue::
   end

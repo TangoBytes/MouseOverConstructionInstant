@@ -1,3 +1,11 @@
-*.code-workspace
+# Build and distribution
+dist/
 *.zip
-.luarc.json
+
+# Logs and temp
+*.log
+*.tmp
+
+# Editor/OS stuff
+.DS_Store
+Thumbs.db

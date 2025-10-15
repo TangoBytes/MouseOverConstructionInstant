@@ -1,19 +1,11 @@
 {
-  "name": "MouseOverConstruction",
-  "version": "2.0.0",
-  "title": "Mouse-Over Construction",
-  "author": "raiguard",
-  "contact": "https://codeberg.org/raiguard/MouseOverConstruction",
-  "homepage": "https://codeberg.org/raiguard/MouseOverConstruction",
-  "description": "Revive ghosts, upgrade, repair, and deconstruct with a simple mouse-over. Respects reach distance and mining speed. Similar to GhostPlacerExpress and MouseOverDeconstruct.",
+  "name": "MouseOverConstructionInstant",
+  "version": "1.0.0",
+  "title": "Mouse-Over Construction: Instant",
+  "author": "tangobytes (original: raiguard)",
+  "contact": "https://github.com/tangobytes/MouseOverConstructionInstant",
+  "homepage": "https://github.com/tangobytes/MouseOverConstructionInstant",
+  "description": "Alternative fork of raiguard's Mouse-Over Construction. Instantly deconstructs all entities without progress bar.",
   "factorio_version": "2.0",
-  "dependencies": [ "base >= 2.0.60", "flib >= 0.16.0" ],
-  "package": {
-    "git_publish_branch": "trunk",
-    "scripts": {
-      "prepublish": "factorio-crowdin-sync"
-    },
-    "ignore": ["resources/*"],
-    "sync_portal_details": true
-  }
+  "dependencies": ["base >= 2.0.60", "flib >= 0.16.0", "!MouseOverConstruction"]
 }
