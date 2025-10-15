@@ -16,6 +16,7 @@ local function start(player, entity)
     local ok = player.mine_entity(entity)
     -- If it succeeds, we're done — no need for the timed mining
     if ok then
+      player.play_sound{ path = "utility/deconstruct_robot" }
       storage.deconstructing[player.index] = nil
       return true
     end
