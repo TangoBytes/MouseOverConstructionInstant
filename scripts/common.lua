@@ -69,6 +69,9 @@ function common.build(player, entity, new_prototype, new_quality)
       end
     end
   end
+  if not new_entity or not new_entity.valid then
+    return
+  end
 
   item.count = item.count - consume_count
 
