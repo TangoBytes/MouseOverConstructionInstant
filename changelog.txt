@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.1
+Date: 2025-11-30
+  Changes:
+    - Integrate underground belt type check fix from raiguard's original MouseOverConstruction
+---------------------------------------------------------------------------------------------------
 Version: 1.0.0
 Date: 2025-10-14
   Changes:
